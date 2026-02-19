@@ -1,0 +1,56 @@
+# Decap CMS Configuration
+# https://decapcms.org/docs/
+
+backend:
+  name: github
+  repo: OWNER/najgf-site        # ← Replace with your GitHub username/repo
+  branch: main
+  base_url: https://najgf-auth.YOURNAME.workers.dev  # ← Replace with your OAuth proxy URL
+
+# For local development with `npx decap-server`:
+# backend:
+#   name: proxy
+#   proxy_url: http://localhost:8081/api/v1
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "events"
+    label: "Events"
+    folder: "src/content/events"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "string", hint: "Format: 2026-05-03" }
+      - { label: "Time", name: "time", widget: "string", required: false, hint: "e.g. 11:00 AM – 4:00 PM" }
+      - { label: "Short Description", name: "description", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Featured on Homepage", name: "featured", widget: "boolean", default: false }
+      - { label: "Details", name: "body", widget: "markdown" }
+
+  - name: "haiku"
+    label: "Haiku Path Stones"
+    folder: "src/content/haiku"
+    create: true
+    slug: "stone-{{stoneNumber}}"
+    sortable_fields: ["stoneNumber"]
+    fields:
+      - { label: "Stone Number", name: "stoneNumber", widget: "number", value_type: "int", min: 1, max: 30 }
+      - { label: "Poet", name: "poet", widget: "select", options: ["Terri L. French", "Peggy Hale Bilbro"] }
+      - { label: "Photo of Stone", name: "image", widget: "image", required: false }
+      - { label: "Location in Garden", name: "location", widget: "string", required: false, hint: "e.g. Near the koi pond" }
+      - { label: "Haiku Text", name: "body", widget: "markdown", hint: "The haiku as carved on the stone. Use line breaks between lines." }
+
+  - name: "gallery"
+    label: "Photo Gallery"
+    folder: "src/content/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Photo", name: "image", widget: "image" }
+      - { label: "Season", name: "season", widget: "select", options: ["spring", "summer", "autumn", "winter"] }
+      - { label: "Description (for accessibility)", name: "alt", widget: "string" }
+      - { label: "Display Order", name: "order", widget: "number", value_type: "int", default: 0 }

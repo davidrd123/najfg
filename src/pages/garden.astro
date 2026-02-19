@@ -1,0 +1,181 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const haikuStones = await getCollection('haiku');
+const sortedHaiku = haikuStones.sort((a, b) => a.data.stoneNumber - b.data.stoneNumber);
+
+const galleryItems = await getCollection('gallery');
+const sortedGallery = galleryItems.sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="The Garden" description="History, features, and the haiku path of the North Alabama Japanese Garden in Monte Sano State Park.">
+
+  <!-- Hero image -->
+  <section class="hero" style="min-height: 50vh;">
+    <div class="hero__image">
+      <div class="placeholder-image" style="width:100%;height:100%;">
+        Garden overview photo
+      </div>
+    </div>
+    <div class="hero__content page-container">
+      <h1>The Garden</h1>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section class="section">
+    <div class="page-container content-width">
+      <h2>How It Began</h2>
+      <p>
+        In 1988, Huntsville landscape designer Robert Black asked a Monte Sano
+        park ranger for permission to plant in a boggy, undeveloped corner of
+        the park. What started as a personal hobby with his daughter became
+        something more. Black designed and built the garden himself, choosing
+        plants, placing stones, shaping paths.
+      </p>
+      <p>
+        Members of Huntsville's Japanese community encouraged him to add a tea
+        house, which would give the space a distinctly Japanese character. The
+        open-air tea house was completed in 1991. The first annual Japanese
+        Spring Festival followed in 1992.
+      </p>
+      <p>
+        Black later traveled to Japan to study garden design, culture, and
+        architectural symbolism. He continued tending the garden for years,
+        building what he described as "a secret garden" on the mountainside.
+      </p>
+      <p>
+        Today, the North Alabama Japanese Garden Foundation and its volunteers
+        maintain and improve the garden, keeping Black's vision alive while
+        growing the space for future visitors.
+      </p>
+
+      <div class="callout" style="margin-top: var(--space-lg);">
+        <p><strong>A note on accuracy</strong></p>
+        <p>
+          Some third-party websites incorrectly attribute the garden's design to
+          outside firms or claim the tea house was built in Japan and shipped to
+          Huntsville. These claims are false. Robert Black is the sole designer
+          and builder of this garden.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section" style="background-color: var(--color-cream);">
+    <div class="page-container">
+      <h2 style="margin-top: 0;">What You'll Find</h2>
+      <div class="feature-block" style="padding-top: var(--space-md);">
+        <div>
+          <h3 style="margin-top: 0;">Tea House</h3>
+          <p>
+            The garden's signature structure, built in 1991. An open-air wooden
+            pavilion beside the koi pond. During festivals, it becomes the
+            setting for traditional Japanese tea ceremonies.
+          </p>
+
+          <h3>Koi Pond &amp; Waterfall</h3>
+          <p>
+            At the heart of the garden. The sound of water is the first thing
+            most visitors notice.
+          </p>
+
+          <h3>Stone Bridge</h3>
+          <p>
+            A guzei, the arched red bridge associated with Japanese garden
+            design, invites you across the water.
+          </p>
+        </div>
+        <div>
+          <h3 style="margin-top: 0;">Bamboo Paths</h3>
+          <p>
+            Bamboo-lined walking paths wind through the garden, creating
+            moments of enclosure and then opening to views of the koi pond
+            or the mountainside.
+          </p>
+
+          <h3>Daikin Trail</h3>
+          <p>
+            A new trail under construction, sponsored by Daikin Alabama,
+            extending the garden's walking paths.
+          </p>
+
+          <h3>Native Plants</h3>
+          <p>
+            Japanese maples grow alongside native azaleas and plants adapted
+            to the Monte Sano mountaintop. The garden preserves and works
+            with the existing landscape rather than replacing it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Haiku Path -->
+  <section class="section" id="haiku-path">
+    <div class="page-container content-width">
+      <h2>The Haiku Path</h2>
+      <p>
+        Twenty-four stones along a walking path, each etched with an original
+        haiku by local poets
+        <strong>Terri L. French</strong> and <strong>Peggy Hale Bilbro</strong>.
+        French is published in <em>Frogpond</em> (the Haiku Society of America
+        journal) and other national publications. The poems are original
+        compositions inspired by local flora and fauna.
+      </p>
+
+      {sortedHaiku.length > 0 ? (
+        <div style="margin-top: var(--space-lg);">
+          {sortedHaiku.map(async (stone) => {
+            const { Content } = await stone.render();
+            return (
+              <div class="haiku-stone">
+                <div class="haiku-stone__number">Stone {stone.data.stoneNumber}</div>
+                <div class="haiku-stone__text">
+                  <Content />
+                </div>
+                <div class="haiku-stone__poet">— {stone.data.poet}</div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="callout" style="margin-top: var(--space-lg);">
+          <p>
+            We are in the process of photographing and transcribing all 24
+            haiku stones. This page will be updated as the documentation
+            is completed.
+          </p>
+          <p>
+            In the meantime, the best way to read them is to walk the path
+            yourself.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section" style="background-color: var(--color-cream);">
+    <div class="page-container">
+      <h2 style="margin-top: 0;">Gallery</h2>
+
+      {sortedGallery.length > 0 ? (
+        <div class="gallery-grid" style="margin-top: var(--space-md);">
+          {sortedGallery.map((item) => (
+            <div class="gallery-grid__item">
+              <img src={item.data.image} alt={item.data.alt} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>
+          The gallery is being built. If you have photos of the garden you'd like
+          to contribute, please <a href="/support/">get in touch</a>.
+        </p>
+      )}
+    </div>
+  </section>
+</Base>

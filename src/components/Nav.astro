@@ -1,0 +1,139 @@
+---
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/visit/', label: 'Visit' },
+  { href: '/garden/', label: 'The Garden' },
+  { href: '/events/', label: 'Events' },
+  { href: '/support/', label: 'Support' },
+];
+---
+
+<header class="site-nav">
+  <div class="site-nav__inner page-container">
+    <a href="/" class="site-nav__logo">
+      <span class="site-nav__name">North Alabama<br />Japanese Garden</span>
+    </a>
+    <button class="site-nav__toggle" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="site-nav__links" aria-label="Main navigation">
+      {links.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={['site-nav__link', { 'is-active': currentPath === href }]}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-stone-pale);
+  }
+
+  .site-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+  }
+
+  .site-nav__logo {
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
+  .site-nav__name {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+
+  .site-nav__links {
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .site-nav__link {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-stone);
+    padding: var(--space-xs) 0;
+    border-bottom: 1.5px solid transparent;
+    transition: all 0.2s var(--ease-out);
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link.is-active {
+    color: var(--color-moss-dark);
+    border-bottom-color: var(--color-moss);
+  }
+
+  /* Mobile toggle */
+  .site-nav__toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .site-nav__toggle span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background-color: var(--color-ink);
+    transition: transform 0.2s var(--ease-out);
+  }
+
+  @media (max-width: 47.99rem) {
+    .site-nav__toggle {
+      display: flex;
+    }
+
+    .site-nav__links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background-color: var(--color-white);
+      border-bottom: 1px solid var(--color-stone-pale);
+      padding: var(--space-md) var(--page-gutter);
+      gap: var(--space-sm);
+    }
+
+    .site-nav__links.is-open {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.site-nav__toggle');
+  const links = document.querySelector('.site-nav__links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+</script>

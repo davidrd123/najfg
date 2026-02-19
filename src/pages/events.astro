@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allEvents = await getCollection('events');
+const now = new Date();
+
+const upcoming = allEvents
+  .filter(e => new Date(e.data.date) >= now)
+  .sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+
+const past = allEvents
+  .filter(e => new Date(e.data.date) < now)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 6);
+---
+
+<Base title="Events" description="Spring Festival, Autumn Celebration, and other events at the North Alabama Japanese Garden.">
+  <section class="section">
+    <div class="page-container content-width">
+      <h1>Events</h1>
+      <p>
+        The garden hosts two annual celebrations of Japanese culture, plus
+        occasional volunteer workdays and special programs. Events are
+        confirmed 4 to 6 weeks in advance through our
+        <a href="https://www.facebook.com/NorthAlabamaJapaneseGarden" target="_blank" rel="noopener">Facebook page</a>
+        and local media.
+      </p>
+    </div>
+  </section>
+
+  <!-- Annual events overview (always shown) -->
+  <section class="section" style="background-color: var(--color-cream);">
+    <div class="page-container">
+      <div class="feature-block">
+        <div>
+          <h2 style="margin-top: 0;">Japanese Spring Festival</h2>
+          <p style="color: var(--color-moss); font-weight: 600;">
+            Typically first Sunday of May
+          </p>
+          <p>
+            An afternoon of traditional Japanese culture: tea ceremony, classical
+            dance, Taiko drumming by Daikin's Taiko Force, martial arts
+            demonstrations, calligraphy, origami, and Japanese foods. The
+            festival has been held annually since 1992.
+          </p>
+          <p style="font-size: 0.875rem; color: var(--color-stone);">
+            $10 per vehicle (replaces normal park entrance fee).
+          </p>
+        </div>
+        <div>
+          <h2 style="margin-top: 0;">Autumn Celebration</h2>
+          <p style="color: var(--color-moss); font-weight: 600;">
+            October (date varies)
+          </p>
+          <p>
+            Koto music, picnics, children's activities, and the garden's
+            best fall color. Japanese maples and native plants light up
+            the mountainside.
+          </p>
+          <p style="font-size: 0.875rem; color: var(--color-stone);">
+            $10 per vehicle (replaces normal park entrance fee).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming events from CMS -->
+  {upcoming.length > 0 && (
+    <section class="section">
+      <div class="page-container content-width">
+        <h2>Upcoming</h2>
+        {upcoming.map(async (event) => {
+          const { Content } = await event.render();
+          return (
+            <div class="event-card">
+              <div class="event-card__date">
+                {event.data.date}{event.data.time ? ` · ${event.data.time}` : ''}
+              </div>
+              <h3 class="event-card__title">{event.data.title}</h3>
+              <p>{event.data.description}</p>
+              <div class="prose"><Content /></div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  <!-- Past events -->
+  {past.length > 0 && (
+    <section class="section" style="background-color: var(--color-cream);">
+      <div class="page-container content-width">
+        <h2 style="margin-top: 0;">Past Events</h2>
+        {past.map((event) => (
+          <div class="event-card" style="border-color: transparent;">
+            <div class="event-card__date" style="color: var(--color-stone-light);">
+              {event.data.date}
+            </div>
+            <h3 class="event-card__title" style="font-size: 1.25rem; color: var(--color-stone);">
+              {event.data.title}
+            </h3>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+</Base>

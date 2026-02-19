@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const events = await getCollection('events');
+const upcomingEvents = events
+  .filter(e => new Date(e.data.date) >= new Date())
+  .sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+
+const nextEvent = upcomingEvents[0];
+---
+
+<Base title="Home">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__image">
+      <!-- Replace with actual garden photo -->
+      <div class="placeholder-image" style="width:100%;height:100%;">
+        Seasonal garden photo
+      </div>
+    </div>
+    <div class="hero__content page-container">
+      <h1>North Alabama Japanese Garden</h1>
+      <p>A one-acre garden in Monte Sano State Park, Huntsville.<br />
+        Tended by volunteers since 1988.</p>
+    </div>
+  </section>
+
+  <!-- Info bar -->
+  <div class="info-bar">
+    <div class="info-bar__inner page-container">
+      <div class="info-bar__item">
+        <span class="info-bar__label">Hours</span>
+        <span>8 AM – 5 PM daily (Monte Sano State Park hours)</span>
+      </div>
+      <div class="info-bar__item">
+        <span class="info-bar__label">Admission</span>
+        <span>Free with park entry ($5 adult, $2 child/senior)</span>
+      </div>
+      {nextEvent && (
+        <div class="info-bar__item">
+          <span class="info-bar__label">Next Event</span>
+          <span>
+            <a href="/events/">{nextEvent.data.title}</a> — {nextEvent.data.date}
+          </span>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="page-container content-width">
+      <p style="font-family: var(--font-display); font-size: 1.375rem; line-height: 1.6; color: var(--color-ink-light);">
+        Hidden just off the road in Monte Sano State Park, this garden began
+        as one man's hobby in a boggy corner of the mountain. Over thirty years
+        later, it holds a tea house, a koi pond, a stone bridge, bamboo paths,
+        and 24 haiku carved in stone. It is small and quiet and worth the walk.
+      </p>
+
+      <div style="margin-top: var(--space-lg); display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+        <a href="/visit/" class="btn">Plan Your Visit</a>
+        <a href="/garden/" class="btn">Explore the Garden</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser: the garden -->
+  <section class="section" style="background-color: var(--color-cream);">
+    <div class="page-container">
+      <div class="feature-block">
+        <div>
+          <div class="gallery-grid__item placeholder-image" style="aspect-ratio: 4/3;">
+            Tea house photo
+          </div>
+        </div>
+        <div>
+          <h2 style="margin-top: 0;">The Tea House</h2>
+          <p>
+            Built in 1991 to give the garden its Japanese character, the open-air
+            tea house sits beside a koi pond and serves as the setting for
+            traditional tea ceremonies during the Spring Festival and Autumn Celebration.
+          </p>
+          <a href="/garden/" class="btn" style="margin-top: var(--space-sm);">The Garden's Story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser: haiku path -->
+  <section class="section">
+    <div class="page-container content-width">
+      <h2>The Haiku Path</h2>
+      <p>
+        Twenty-four stones along a walking path, each etched with an original
+        haiku by local poets Terri L. French and Peggy Hale Bilbro. Poems
+        inspired by what grows and lives on this mountain.
+      </p>
+
+      <!-- Sample haiku placeholder -->
+      <div class="haiku-stone" style="border-bottom: none;">
+        <div class="haiku-stone__number">Stone 1</div>
+        <div class="haiku-stone__text">
+          [Haiku text to be<br />
+          documented from the<br />
+          stone engravings]
+        </div>
+        <div class="haiku-stone__poet">— Terri L. French</div>
+      </div>
+
+      <a href="/garden/#haiku-path" class="btn">Read All 24 Haiku</a>
+    </div>
+  </section>
+
+  <!-- Teaser: support -->
+  <section class="section" style="background-color: var(--color-cream);">
+    <div class="page-container content-width" style="text-align: center;">
+      <h2 style="margin-top: 0;">The Garden Needs You</h2>
+      <p style="margin-left: auto; margin-right: auto;">
+        The North Alabama Japanese Garden Foundation maintains and improves the
+        garden through volunteer labor and community support.
+      </p>
+      <div style="margin-top: var(--space-md); display: flex; flex-wrap: wrap; gap: var(--space-sm); justify-content: center;">
+        <a href="/support/#volunteer" class="btn">Volunteer</a>
+        <a href="/support/#donate" class="btn btn--filled">Donate</a>
+      </div>
+    </div>
+  </section>
+</Base>

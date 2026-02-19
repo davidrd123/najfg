@@ -1,0 +1,507 @@
+/* ═══════════════════════════════════════════
+   North Alabama Japanese Garden Foundation
+   Design tokens & global styles
+   ═══════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+
+:root {
+  /* Stone, moss, wood */
+  --color-stone:       #7A7568;
+  --color-stone-light: #B5AFA5;
+  --color-stone-pale:  #E8E4DE;
+  --color-moss:        #4A5E3C;
+  --color-moss-dark:   #2D3D25;
+  --color-moss-light:  #8FA47E;
+  --color-bamboo:      #6B7F4E;
+  --color-wood:        #8B7355;
+  --color-wood-light:  #C4AB8B;
+  --color-cream:       #F5F2EC;
+  --color-white:       #FAFAF8;
+  --color-ink:         #2C2C28;
+  --color-ink-light:   #5C5C56;
+
+  /* Seasonal accents */
+  --color-azalea:      #C75B7A;
+  --color-maple:       #B84A2D;
+  --color-wisteria:    #7B6D8E;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Source Sans 3', -apple-system, sans-serif;
+
+  /* Spacing scale (based on 8px) */
+  --space-xs:  0.5rem;
+  --space-sm:  1rem;
+  --space-md:  1.5rem;
+  --space-lg:  2.5rem;
+  --space-xl:  4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 10rem;
+
+  /* Layout */
+  --content-width: 42rem;
+  --wide-width:    64rem;
+  --page-gutter:   clamp(1.5rem, 5vw, 4rem);
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── Reset ─── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+  background-color: var(--color-white);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-moss);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  transition: color 0.2s var(--ease-out);
+}
+a:hover {
+  color: var(--color-moss-dark);
+}
+
+/* ─── Typography ─── */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-ink);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+p {
+  max-width: 65ch;
+  margin-bottom: var(--space-md);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Layout primitives ─── */
+
+.page-container {
+  width: 100%;
+  max-width: var(--wide-width);
+  margin: 0 auto;
+  padding: 0 var(--page-gutter);
+}
+
+.content-width {
+  max-width: var(--content-width);
+}
+
+.section {
+  padding: var(--space-2xl) 0;
+}
+
+.section + .section {
+  border-top: 1px solid var(--color-stone-pale);
+}
+
+/* ─── Hero ─── */
+
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-2xl) 0;
+  overflow: hidden;
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(44, 44, 40, 0.7) 0%,
+    rgba(44, 44, 40, 0.2) 50%,
+    rgba(44, 44, 40, 0.05) 100%
+  );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  color: var(--color-cream);
+  max-width: var(--content-width);
+}
+
+.hero__content h1 {
+  color: var(--color-cream);
+  margin-bottom: var(--space-sm);
+}
+
+.hero__content p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+}
+
+/* ─── Info bar (hours, admission, next event) ─── */
+
+.info-bar {
+  background-color: var(--color-cream);
+  border-bottom: 1px solid var(--color-stone-pale);
+  padding: var(--space-md) 0;
+}
+
+.info-bar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-xl);
+  font-size: 0.9375rem;
+}
+
+.info-bar__item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-xs);
+}
+
+.info-bar__label {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-stone);
+}
+
+/* ─── Event cards ─── */
+
+.event-card {
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--color-stone-pale);
+}
+
+.event-card:last-child {
+  border-bottom: none;
+}
+
+.event-card__date {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--color-moss);
+  margin-bottom: var(--space-xs);
+}
+
+.event-card__title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: var(--space-sm);
+}
+
+/* ─── Haiku stones ─── */
+
+.haiku-stone {
+  padding: var(--space-xl) 0;
+  border-bottom: 1px solid var(--color-stone-pale);
+  max-width: 32rem;
+}
+
+.haiku-stone__number {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  color: var(--color-stone-light);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-sm);
+}
+
+.haiku-stone__text {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--color-ink);
+  font-style: italic;
+}
+
+.haiku-stone__poet {
+  margin-top: var(--space-sm);
+  font-size: 0.875rem;
+  color: var(--color-stone);
+}
+
+/* ─── Gallery grid ─── */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-sm);
+}
+
+.gallery-grid__item {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: var(--color-stone-pale);
+}
+
+.gallery-grid__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.gallery-grid__item:hover img {
+  transform: scale(1.03);
+}
+
+/* ─── Feature blocks (visit info, support) ─── */
+
+.feature-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+}
+
+@media (min-width: 48rem) {
+  .feature-block {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.feature-block__item h3 {
+  margin-top: 0;
+}
+
+/* ─── Sponsor grid ─── */
+
+.sponsor-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-lg);
+  align-items: center;
+  padding: var(--space-md) 0;
+}
+
+.sponsor-grid__item {
+  font-size: 0.9375rem;
+  color: var(--color-stone);
+}
+
+/* ─── CTA / callout ─── */
+
+.callout {
+  background-color: var(--color-cream);
+  border-left: 3px solid var(--color-moss-light);
+  padding: var(--space-md) var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+.callout p {
+  margin-bottom: var(--space-xs);
+}
+
+/* ─── Button ─── */
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.75rem 1.75rem;
+  border: 1.5px solid var(--color-moss);
+  color: var(--color-moss);
+  background: transparent;
+  transition: all 0.25s var(--ease-out);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--color-moss);
+  color: var(--color-cream);
+}
+
+.btn--filled {
+  background-color: var(--color-moss);
+  color: var(--color-cream);
+}
+
+.btn--filled:hover {
+  background-color: var(--color-moss-dark);
+  border-color: var(--color-moss-dark);
+}
+
+/* ─── Footer ─── */
+
+.site-footer {
+  background-color: var(--color-cream);
+  border-top: 1px solid var(--color-stone-pale);
+  padding: var(--space-xl) 0 var(--space-lg);
+  font-size: 0.875rem;
+  color: var(--color-stone);
+}
+
+.site-footer a {
+  color: var(--color-stone);
+}
+
+.site-footer a:hover {
+  color: var(--color-moss-dark);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 48rem) {
+  .footer-grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+.footer-grid h4 {
+  font-size: 0.8125rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-stone);
+  margin-bottom: var(--space-sm);
+}
+
+.footer-grid ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-grid li {
+  margin-bottom: var(--space-xs);
+}
+
+.footer__bottom {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-stone-pale);
+  font-size: 0.8125rem;
+  color: var(--color-stone-light);
+}
+
+/* ─── Placeholder for missing images ─── */
+
+.placeholder-image {
+  background: linear-gradient(
+    135deg,
+    var(--color-stone-pale) 0%,
+    var(--color-cream) 50%,
+    var(--color-stone-pale) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-stone-light);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* ─── Prose (markdown content) ─── */
+
+.prose h2 {
+  margin-top: var(--space-xl);
+}
+
+.prose h3 {
+  margin-top: var(--space-lg);
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.prose li {
+  margin-bottom: var(--space-xs);
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--color-moss-light);
+  padding-left: var(--space-md);
+  font-style: italic;
+  color: var(--color-ink-light);
+}
+
+/* ─── Responsive ─── */
+
+@media (min-width: 48rem) {
+  .info-bar__inner {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .hero {
+    min-height: 50vh;
+  }
+
+  .section {
+    padding: var(--space-xl) 0;
+  }
+}
