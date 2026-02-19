@@ -3,9 +3,9 @@
 
 backend:
   name: github
-  repo: OWNER/najgf-site        # ← Replace with your GitHub username/repo
+  repo: davidrd123/najfg
   branch: main
-  base_url: https://najgf-auth.YOURNAME.workers.dev  # ← Replace with your OAuth proxy URL
+  base_url: https://najgf-auth.davidrd123.workers.dev
 
 # For local development with `npx decap-server`:
 # backend:
