@@ -1,7 +1,7 @@
 ---
 title: "23rd Annual Japanese Spring Festival"
 date: "2026-05-03"
-time: "11:00 AM – 4:00 PM"
+time: "12:30 PM – 4:30 PM"
 description: "An afternoon of Japanese culture featuring tea ceremony, Taiko drumming, martial arts, calligraphy, origami, and Japanese foods."
 featured: true
 ---
